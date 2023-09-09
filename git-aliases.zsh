@@ -20,7 +20,7 @@ function git-cl() {
 
   # Delete branches with gum confirmation
   echo $TO_DELETE | awk '{print " — " $0}' | gum style --foreground 212 --margin "2 0 1 0"
-  gum confirm "Delete branches?" && git branch -d `echo $TO_DELETE | tr '\n' ' '`
+  gum confirm "Delete branches?" && git branch -D `echo $TO_DELETE | tr '\n' ' '`
 }
 
 # Git checkout branch using gum filter (fuzzy search)
