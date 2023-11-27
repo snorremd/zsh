@@ -1,0 +1,36 @@
+#!/usr/bin/env bb
+
+(defn random-bytes
+  [n]
+  (with-open [in (io/input-stream (io/file "/dev/urandom"))]
+    (let [buf (byte-array n)]
+      (.read in buf)
+      buf)))
+
+(defn random-number
+  [n]
+  (let [factor (/ n (+ Integer/MAX_VALUE 1))]
+    (-> (random-bytes 4)
+        byte-array
+        java.math.BigInteger.
+        (as-> rand-int
+              (+ (* factor rand-int) 0))
+        int
+        (as-> num
+              (max num (- num))))))
+
+(def word-list (->> "/usr/share/dict/words"
+                    io/reader
+                    line-seq
+                    (filter #(> 10 (count %) 4))
+                    (map str/lower-case)))
+
+(def word-count (count word-list))
+
+(defn passphrase!
+  []
+  (->> (fn [] (nth word-list (random-number word-count)))
+       (repeatedly 5)
+       (str/join " ")))
+
+(println (passphrase!))
