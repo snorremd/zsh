@@ -14,6 +14,9 @@ vim ${ZDOTDIR:-~}/.zsh_plugins.txt
 # To install aliases
 snorremd/zsh path:aliases
 
+# To install babashka scripts
+snorremd/zsh path:bb-scripts
+
 # To install Rustic plugin
 snorremd/zsh path:plugins/rustic
 ```

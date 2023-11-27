@@ -1,0 +1,30 @@
+#!/usr/bin/env bb
+
+;; Require string namespace for string functions
+(require '[clojure.string :as str])
+
+(defn decode
+  [str]
+  (String. (.decode (java.util.Base64/getDecoder) str)))
+
+;; Extract claims from JWT without verifying signature
+;; Read JWT from stdin or from first argument
+
+(defn extract-claims
+  [str]
+  (as-> str $
+    (str/split $ #"\.")
+    (second $)
+    (decode $)))
+
+(-> (if (empty? *command-line-args*)
+      (slurp "/dev/stdin")
+      (first *command-line-args*))
+    extract-claims
+    println)
+
+
+(comment
+  (extract-claims "eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiIxMjM0NTY3ODkwIiwibmFtZSI6IkpvaG4gRG9lIiwiYWRtaW4iOnRydWUsImlhdCI6MTUxNjIzOTAyMn0.NHVaYe26MbtOYhSKkoKYdFVomg4i8ZJd8_-RU8VNbftc4TSMb4bXP3l3YlNWACwyXPGffz5aXHc6lty1Y2t4SWRqGteragsVdZufDn5BlnJl9pdR_kdVFUsra2rWKEofkZeIC4yWytE58sMIihvo9H1ScmmVwBcQP6XETqYd0aSHp1gOa9RdUPDvoXQ5oqygTqVtxaDr6wUFKrKItgBMzWIdNZ6y7O9E0DhEPTbE9rfBo6KTFsHAZnMg4k68CDp2woYIaXbmYTWcvbzIuHO7_37GT79XdIwkm95QJ7hYC9RiwrV7mesbY4PAahERJawntho0my942XheVLmGwLMBkQ")
+
+  )
