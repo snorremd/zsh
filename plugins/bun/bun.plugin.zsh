@@ -1,2 +1,5 @@
 # bun completions
-[ -s "/Users/snorre/.bun/_bun" ] && source "/Users/snorre/.bun/_bun"
+[ -s "$HOME/.bun/_bun" ] && source "$HOME/.bun/_bun"
+
+# Add Bun bin folder to PATH
+export PATH="$HOME/.bun/bin:$PATH"
