@@ -19,5 +19,8 @@ snorremd/zsh path:bb-scripts
 
 # To install Rustic plugin
 snorremd/zsh path:plugins/rustic
+
+# To install Volta plugin
+snorremd/zsh path:plugins/volta
 ```
 
